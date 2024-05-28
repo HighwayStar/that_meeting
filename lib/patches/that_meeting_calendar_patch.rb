@@ -41,3 +41,7 @@ module Patches
 
     end
 end
+
+unless Redmine::Helpers::Calendar.included_modules.include?(Patches::ThatMeetingCalendarPatch)
+    Redmine::Helpers::Calendar.send(:include, Patches::ThatMeetingCalendarPatch)
+end

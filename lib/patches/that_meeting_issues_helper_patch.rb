@@ -85,3 +85,7 @@ module Patches
 
     end
 end
+
+unless IssuesHelper.included_modules.include?(Patches::ThatMeetingIssuesHelperPatch)
+    IssuesHelper.send(:include, Patches::ThatMeetingIssuesHelperPatch)
+end

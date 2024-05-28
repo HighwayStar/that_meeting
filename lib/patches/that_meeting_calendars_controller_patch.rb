@@ -42,3 +42,7 @@ module Patches
 
     end
 end
+
+unless CalendarsController.included_modules.include?(Patches::ThatMeetingCalendarsControllerPatch)
+    CalendarsController.send(:include, Patches::ThatMeetingCalendarsControllerPatch)
+end

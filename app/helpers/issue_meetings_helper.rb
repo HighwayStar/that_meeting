@@ -58,3 +58,8 @@ module IssueMeetingsHelper
     end
 
 end
+
+unless IssuesController.included_modules.include?(IssueMeetingsHelper)
+    IssuesController.send(:helper, :issue_meetings)
+    IssuesController.send(:include, IssueMeetingsHelper)
+end

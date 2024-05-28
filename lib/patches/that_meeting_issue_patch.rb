@@ -167,3 +167,7 @@ module Patches
 
     end
 end
+
+unless Issue.included_modules.include?(Patches::ThatMeetingIssuePatch)
+    Issue.send(:include, Patches::ThatMeetingIssuePatch)
+end

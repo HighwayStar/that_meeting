@@ -14,3 +14,8 @@ module I18n
 
     end
 end
+
+
+unless ActionView::Base.included_modules.include?(I18n::TimeFormatter)
+    ActionView::Base.send(:include, I18n::TimeFormatter)
+end

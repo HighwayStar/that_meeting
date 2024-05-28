@@ -31,3 +31,7 @@ module Patches
 
     end
 end
+
+unless ApplicationHelper.included_modules.include?(Patches::ThatMeetingApplicationHelperPatch)
+    ApplicationHelper.send(:include, Patches::ThatMeetingApplicationHelperPatch)
+end

@@ -42,3 +42,7 @@ module Patches
 
     end
 end
+
+unless MyHelper.included_modules.include?(Patches::ThatMeetingMyHelperPatch)
+    MyHelper.send(:include, Patches::ThatMeetingMyHelperPatch)
+end

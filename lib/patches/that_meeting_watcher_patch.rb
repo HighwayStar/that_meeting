@@ -26,3 +26,7 @@ module Patches
 
     end
 end
+
+unless Watcher.included_modules.include?(Patches::ThatMeetingWatcherPatch)
+    Watcher.send(:include, Patches::ThatMeetingWatcherPatch)
+end

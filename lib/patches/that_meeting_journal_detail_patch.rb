@@ -33,3 +33,7 @@ module Patches
 
     end
 end
+
+unless JournalDetail.included_modules.include?(Patches::ThatMeetingJournalDetailPatch)
+    JournalDetail.send(:include, Patches::ThatMeetingJournalDetailPatch)
+end

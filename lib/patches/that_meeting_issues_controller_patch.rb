@@ -32,3 +32,7 @@ module Patches
 
     end
 end
+
+unless IssuesController.included_modules.include?(Patches::ThatMeetingIssuesControllerPatch)
+    IssuesController.send(:include, Patches::ThatMeetingIssuesControllerPatch)
+end

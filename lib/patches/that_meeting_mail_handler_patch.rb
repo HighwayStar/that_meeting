@@ -128,3 +128,7 @@ module Patches
 
     end
 end
+
+unless MailHandler.included_modules.include?(Patches::ThatMeetingMailHandlerPatch)
+    MailHandler.send(:include, Patches::ThatMeetingMailHandlerPatch)
+end

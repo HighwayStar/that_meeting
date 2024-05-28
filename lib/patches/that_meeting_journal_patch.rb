@@ -48,3 +48,7 @@ module Patches
 
     end
 end
+
+unless Journal.included_modules.include?(Patches::ThatMeetingJournalPatch)
+    Journal.send(:include, Patches::ThatMeetingJournalPatch)
+end
