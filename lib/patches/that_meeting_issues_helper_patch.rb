@@ -4,25 +4,13 @@ module Patches
     module ThatMeetingIssuesHelperPatch
 
         def self.included(base)
-            base.send(:include, InstanceMethods)
-            base.class_eval do
-                unloadable
-
-                alias_method :render_issue_tooltip_without_meeting, :render_issue_tooltip
-                alias_method :render_issue_tooltip, :render_issue_tooltip_with_meeting
-
-                alias_method :email_issue_attributes_without_meeting, :email_issue_attributes
-                alias_method :email_issue_attributes, :email_issue_attributes_with_meeting
-
-                alias_method :show_detail_without_meeting, :show_detail
-                alias_method :show_detail, :show_detail_with_meeting
-            end
+            base.prepend(InstanceMethods)
         end
 
         module InstanceMethods
 
-            def render_issue_tooltip_with_meeting(issue)
-                tooltip = render_issue_tooltip_without_meeting(issue)
+            def render_issue_tooltip(issue)
+                tooltip = super(issue)
                 if issue.meeting?
                     @cached_label_occurrence ||= l(:label_occurrence)
                     @cached_label_date ||= l(:label_date)
@@ -46,8 +34,8 @@ module Patches
                 tooltip.html_safe
             end
 
-            def email_issue_attributes_with_meeting(issue, user, html)
-                items = email_issue_attributes_without_meeting(issue, user, html)
+            def email_issue_attributes(issue, user, html)
+                items = super(issue, user, html)
                 %w(start_date start_time end_time recurrence).reverse.each do |attribute|
                     if value = issue.send(attribute)
                         case value
@@ -69,7 +57,7 @@ module Patches
                 items
             end
 
-            def show_detail_with_meeting(detail, no_html = false, options = {})
+            def show_detail(detail, no_html = false, options = {})
                 if detail.property == 'attendee'
                     if detail.value
                         l("label_meeting_status_#{detail.value.downcase}")
@@ -77,7 +65,7 @@ module Patches
                         l(detail.prop_key.empty? ? :label_meeting_status_all_reset : :label_meeting_status_none)
                     end
                 else
-                    show_detail_without_meeting(controller.is_a?(Mailer) ? detail.dup : detail, no_html, options)
+                    super(controller.is_a?(Mailer) ? detail.dup : detail, no_html, options)
                 end
             end
 

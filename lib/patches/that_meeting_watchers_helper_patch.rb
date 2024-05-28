@@ -4,19 +4,13 @@ module Patches
     module ThatMeetingWatchersHelperPatch
 
         def self.included(base)
-            base.send(:include, InstanceMethods)
-            base.class_eval do
-                unloadable
-
-                alias_method :watchers_list_without_meeting, :watchers_list
-                alias_method :watchers_list, :watchers_list_with_meeting
-            end
+            base.prepend(InstanceMethods)
         end
 
         module InstanceMethods
 
-            def watchers_list_with_meeting(object)
-                content = watchers_list_without_meeting(object)
+            def watchers_list(object)
+                content = super(object)
                 if object.is_a?(Issue) && object.meeting?
                     js = "$('#watchers h3').text('#{j l(:label_attendees)} (#{object.watcher_users.size})');"
                     js << "$('#watchers ul.watchers').addClass('attendees');"
